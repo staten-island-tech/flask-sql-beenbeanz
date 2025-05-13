@@ -16,11 +16,9 @@ class Task(db.Model):
 with app.app_context():
     db.create_all()
 @app.route('/')
-
 def home():
     tasks = Task.query.all()
     return render_template('index.html', tasks=tasks)
-
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
@@ -32,7 +30,6 @@ def submit():
         db.session.commit()
         return render_template('tasks.html', newTask = newTask)
     return redirect('/')
-
 if __name__ == '__main__':
     app.run(debug=True)
 
