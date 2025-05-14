@@ -4,13 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Confirmed</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}">
 </head>
 <body>
     <h1>Tasks:</h1>
-    <p>{{newTask.name}}</p>
-    <p>{{newTask.task}}</p>
-    <p>{{newTask.desc}}</p>
+    <div class="tasks">
+        {%for task in tasksList%}
+        <div class="task">
+            <input type="checkbox" name="taskName" class="checkboxInput">
+            <label for="taskName" class="label">{{task.task}}</label>
+            <p>set by: {{task.name}}</p>
+            <p>{{task.desc}}</p>
+        </div>
+        {%endfor%}
+    </div>
     <a href="{{ url_for('home') }}">⬅️ back to form</a>
+    <script>
+        const checkboxes = document.querySelector('.checkboxInput');
+        console.log(checkboxes);   
+        if(checkboxes.checked) console.log("hi")   
+    </script>
 </body>
 </html>

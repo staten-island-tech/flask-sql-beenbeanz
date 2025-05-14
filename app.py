@@ -19,6 +19,7 @@ with app.app_context():
 def home():
     tasks = Task.query.all()
     return render_template('index.html', tasks=tasks)
+tasksList = []
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
@@ -27,8 +28,9 @@ def submit():
         desc = request.form['desc']
         newTask = Task(name=name, task=task, desc=desc)
         db.session.add(newTask)
+        tasksList.append(newTask)
         db.session.commit()
-        return render_template('tasks.html', newTask = newTask)
+        return render_template('tasks.html', tasksList=tasksList)
     return redirect('/')
 if __name__ == '__main__':
     app.run(debug=True)
