@@ -12,7 +12,7 @@ class Task(db.Model):
     name = db.Column(db.String(100), nullable=False)
     task = db.Column(db.String(100), nullable=False)
     desc = db.Column(db.String(100), nullable=False)  
-
+    date = db.Column(db.Date, nullable=False)
 with app.app_context():
     db.create_all()
 @app.route('/')
@@ -23,15 +23,18 @@ tasksList = []
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
-        name = request.form['name']
-        task = request.form['task']
-        desc = request.form['desc']
-        newTask = Task(name=name, task=task, desc=desc)
-        db.session.add(newTask)
-        tasksList.append(newTask)
-        db.session.commit()
+        try:
+            name = request.form['name']
+            task = request.form['task']
+            desc = request.form['desc']
+        except TypeError:
+            return
+        else:
+            newTask = Task(name=name, task=task, desc=desc)
+            db.session.add(newTask)
+            tasksList.append(newTask)
+            db.session.commit()
         return render_template('tasks.html', tasksList=tasksList)
     return redirect('/')
 if __name__ == '__main__':
     app.run(debug=True)
-
